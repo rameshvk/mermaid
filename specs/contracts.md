@@ -87,3 +87,30 @@ also emit `dist/ABI.md`, upstream notices under `dist/licenses/merman/`, and a
 dependency/license metadata inventory in `dist/dependencies.json`. Only the WASM
 file is needed at runtime. A failed build must not be treated as publishing a new
 artifact; an earlier file may remain in `dist`.
+
+## Pages deployment
+
+The WASM GitHub Actions workflow is the boundary between repository changes and
+GitHub Pages hosting. Pushes, pull requests, and manual dispatches run `make test`.
+Only non-pull-request runs on the repository's configured default branch may
+upload and deploy `dist/`. Deployment depends on successful tests and uses that
+run's tested artifact without rebuilding. Runs on the same ref are serialized;
+an active run is not cancelled when a newer commit arrives.
+
+The repository owner must enable Pages with GitHub Actions as its source and allow
+the default branch in any `github-pages` environment protection rules. The build
+job has read-only repository access. The deployment job uses the built-in Actions
+token with Pages-write and OIDC-token-write permissions in the `github-pages`
+environment; it does not require a personal access token. The workflow does not
+automatically enable Pages. Missing configuration or permissions fail deployment.
+
+The distribution is hosted at the Pages base URL returned by deployment. Append
+`mermaid.wasm` for the binary, `ABI.md` for the ABI, `dependencies.json` for the
+inventory, and `licenses/merman/` for notice files. The workflow summary reports
+the binary URL. There is no root landing page or version archive. Each deployment
+replaces the previous site's contents; this URL is mutable, not release-pinned.
+
+Streaming browser loading requires HTTP 200 with `application/wasm`. Cross-origin
+hosts additionally require CORS permission. These are hosting properties to verify
+on the deployed URL; local module tests do not prove them. Failed builds/tests do
+not deploy. A failed deployment does not establish that a new binary is live.

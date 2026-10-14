@@ -30,6 +30,37 @@ engine and an empty import object; test-only JavaScript is not shipped with it.
 The evaluation build was approximately 11.7 MB (4.0 MB gzip); actual size varies
 with the wrapper and toolchain. Gzip/Brotli can be applied by the serving host.
 
+## GitHub Pages delivery
+
+Push this repository to GitHub, then select **Settings → Pages → Build and
+deployment → Source → GitHub Actions**. No `gh-pages` branch is needed. If the
+`github-pages` environment has deployment protection rules, allow the repository's
+default branch.
+
+The **WASM** workflow tests pushes and pull requests. A successful push to the
+default branch also deploys the tested `dist/` directory to Pages. To deploy the
+current default branch without another commit, select **Actions → WASM → Run
+workflow**, choosing the default branch. Pull requests and other branches never
+deploy. Pages must already be enabled; the workflow does not change repository
+settings or require a personal access token.
+
+For this repository, the default download URL is:
+
+```text
+https://rameshvk.github.io/mermaid/mermaid.wasm
+```
+
+The deployment job reports the actual URL, including custom-domain configurations.
+`ABI.md`, `dependencies.json`, and `licenses/merman/` are published alongside the
+binary. The root URL does not have a landing page. The binary URL follows the latest
+successful default-branch deployment; it is not an immutable versioned release.
+
+After the first deployment, verify that the binary URL returns HTTP 200,
+`Content-Type: application/wasm`, and an appropriate `Access-Control-Allow-Origin`
+header for use from another website. The host can load it with
+`WebAssembly.instantiateStreaming(fetch(wasmUrl), {})`, then implement the memory
+ABI below. No renderer JavaScript is published.
+
 ## Host interface
 
 See [ABI v1](specs/contracts.md) for exact signatures, descriptor layout, ownership,

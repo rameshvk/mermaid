@@ -2,6 +2,15 @@
 
 Axis: conversion outcomes observed by a host application.
 
+## Hosted distribution
+
+When GitHub Pages is configured, a successful default-branch build publishes a
+directly downloadable WASM binary, ABI documentation, and dependency notices.
+The download URL follows the latest successful deployment and is not an immutable
+release. Pull requests and other branches cannot replace the published binary.
+Build or test failures prevent publication. Missing hosting configuration or
+permissions produce a failed deployment rather than a successful publication.
+
 ## Diagram conversion
 
 Supported Mermaid source produces SVG text, including labels, shapes, styles, and

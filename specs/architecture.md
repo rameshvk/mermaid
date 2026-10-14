@@ -5,6 +5,7 @@ flowchart LR
   Build[Build and verification] --> ABI
   Build --> Engine
   Build --> Artifact[Standalone WASM artifact]
+  Build --> Pages[GitHub Pages]
 ```
 
 # Architecture
@@ -35,7 +36,9 @@ loading are permitted. Selection rationale is in [Rendering engine](rendering-en
 Owns `scripts/`, `tests/`, `Makefile`, `rust-toolchain.toml`, and `.github/workflows/`.
 Compiles the artifact, verifies its import/export boundary, packages upstream
 notices, and exercises the actual WASM via a test-only host. Talks to Memory ABI
-through the compiled artifact. Test JavaScript is not part of the renderer.
+through the compiled artifact. Publishes the tested distribution to external
+GitHub Pages hosting from the default branch. Test JavaScript is not part of the
+renderer.
 
 ## Constraints
 

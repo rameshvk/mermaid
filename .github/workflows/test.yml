@@ -1,5 +1,17 @@
 name: WASM
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Serialize runs on each ref; do not interrupt an active Pages deployment.
+concurrency:
+  group: wasm-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -9,3 +21,30 @@ jobs:
         with:
           node-version: '22'
       - run: make test
+      - name: Upload tested Pages files
+        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy tested artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Report download URL
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          printf 'WASM download: %smermaid.wasm\n' "${PAGE_URL%/}/" >> "$GITHUB_STEP_SUMMARY"
