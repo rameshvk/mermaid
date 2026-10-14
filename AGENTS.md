@@ -1,6 +1,6 @@
-# <Project>
+# Mermaid WASM
 
-This is a <pure xyz lang> project.
+This is a Rust project producing a standalone Mermaid-to-SVG WebAssembly module.
 
 ## Notes
 
@@ -19,6 +19,8 @@ This is a <pure xyz lang> project.
 * **A behavior change and its spec update are one commit.**  Before editing
   anything under `specs/`, read [specs/layout.md](specs/layout.md) — it defines
   where a fact belongs and how the specs stay current.
-* Use small conventional commits.  All tests must pass + the standard lang pretty printing 
+* Use small conventional commits. All tests must pass + `cargo fmt --check`
   before every commit.
-* No external dependencies, only the standard golang package and nothing else.
+* External Rust dependencies are allowed for the rendering engine. Pin the engine
+  revision and commit Cargo.lock. The final WASM module must have zero imports;
+  browser APIs, JavaScript bindings, WASI, and runtime asset fetching are prohibited.

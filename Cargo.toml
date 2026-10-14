@@ -1,0 +1,20 @@
+[package]
+name = "mermaid-wasm"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.99"
+publish = false
+description = "Standalone Mermaid-to-SVG WASM renderer with a UTF-8 memory ABI"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+merman = { git = "https://github.com/Latias94/merman", rev = "768370e0842dbd8df24d477fdbbf3449eb61de3d", default-features = false, features = ["all-diagrams", "svg", "layout-cytoscape", "layout-elk"] }
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true
+panic = "abort"

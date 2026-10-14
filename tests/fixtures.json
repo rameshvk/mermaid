@@ -1,0 +1,19 @@
+{
+  "flowchart": "flowchart LR\n A[Start] --> B{Decision}\n B -->|Yes| C[Done]",
+  "sequence": "sequenceDiagram\n Alice->>Bob: Hello\n Bob-->>Alice: Hi",
+  "class": "classDiagram\n Animal <|-- Duck\n Animal : +int age",
+  "state": "stateDiagram-v2\n [*] --> Idle\n Idle --> Running",
+  "er": "erDiagram\n CUSTOMER ||--o{ ORDER : places",
+  "pie": "pie title Pets\n \"Dogs\" : 10\n \"Cats\" : 20",
+  "gantt": "gantt\n title Plan\n dateFormat YYYY-MM-DD\n section Work\n Task :a1, 2026-01-01, 3d",
+  "mindmap": "mindmap\n root((Project))\n  Build\n  Test",
+  "gitgraph": "gitGraph\n commit\n branch develop\n checkout develop\n commit",
+  "sankey": "sankey-beta\n\nA,B,10\nB,C,5",
+  "quadrant": "quadrantChart\n title Priorities\n x-axis Low --> High\n y-axis Low --> High\n A: [0.3, 0.6]",
+  "timeline": "timeline\n title History\n 2020 : Start\n 2021 : Finish",
+  "block": "block-beta\n columns 2\n A B",
+  "packet": "packet-beta\n 0-7: \"Header\"\n 8-15: \"Data\"",
+  "xychart": "xychart-beta\n x-axis [jan, feb, mar]\n y-axis \"Sales\" 0 --> 100\n bar [20, 40, 60]",
+  "unicode": "flowchart LR\n A[こんにちは] --> B[مرحبا 🌍]",
+  "frontmatter": "---\ntitle: Example\nconfig:\n  theme: dark\n---\nflowchart LR\n A --> B"
+}
